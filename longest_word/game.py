@@ -1,6 +1,7 @@
 """docstring"""
 import random
 import string
+import requests
 
 # pylint: disable=too-few-public-methods
 
@@ -15,10 +16,13 @@ class Game:
         grid = self.grid.copy()
         if word == '':
             return False
+       
         for letter in word:
             if letter in string.ascii_uppercase and letter in grid:
                 grid.remove(letter)
             else:
                 return False
-        return True
+            
+        res = requests.get(f'https://dictionary.lewagon.com/{word}').json()
+        return res['found']
         
